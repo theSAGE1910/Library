@@ -17,7 +17,8 @@
             <div th:switch="${books}" class="container my-5">
                 <p class="my-5">
                     <a href="/add-book" class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2"> Add book </i>
+                        <i class="fas fa-user-plus"></i>
+                        <span class="ms-2">Add book</span>
                     </a>
                 </p>
                 <div class="col-md-12">
@@ -39,13 +40,13 @@
                                 <td th:text="${book.isbn}"></td>
                                 <td th:text="${book.name}"></td>
                                 <td th:text="${book.description}"></td>
-                                <td><a th:href="@{/book/{id}(id=${books.id})}" class="btn btn-primary">
+                                <td><a th:href="@{/book/{id}(id=${book.id})}" class="btn btn-primary">
                                     <i class="fas fa-eye ml-2"></i></a>
                                 </td>
-                                <td><a th:href="@{/update-book/{id}(id=${books.id})}" class="btn btn-primary">
+                                <td><a th:href="@{/update-book/{id}(id=${book.id})}" class="btn btn-primary">
                                     <i class="fas fa-edit ml-2"></i></a>
                                 </td>
-                                <td><a th:href="@{/remove-book/{id}(id=${books.id})}" class="btn btn-primary">
+                                <td><a th:href="@{/remove-book/{id}(id=${book.id})}" class="btn btn-primary">
                                     <i class="fas fa-user-times ml-2"></i></a>
                                 </td>
                             </tr>
