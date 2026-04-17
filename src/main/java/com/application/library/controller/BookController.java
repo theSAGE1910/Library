@@ -8,8 +8,10 @@ import com.application.library.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -47,11 +49,24 @@ public class BookController {
     }
 
     @GetMapping("add-book")
-    public String addBook(Book book, Model model) {
-        bookService.createBook(book);
-        model.addAttribute("books", bookService.findAllBooks());
-        return "books";
+    public String addBook(Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("categories", categoryService.findAllCategories());
+        model.addAttribute("publishers", publisherService.findAllPublishers());
+        model.addAttribute("authors", authorService.findAllAuthors());
+
+        return "add-book";
     }
+
+    @PostMapping("/save-book")
+    public String saveBook(Book book, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add-book";
+        }
+        bookService.createBook(book);
+        return "redirect:/books";
+    }
+
 
     @GetMapping("update-book/{id}")
     public String updateBook(@PathVariable Long id, Model model) {
@@ -61,5 +76,21 @@ public class BookController {
         model.addAttribute("publishers", publisherService.findAllPublishers());
         model.addAttribute("authors", authorService.findAllAuthors());
         return "update-book";
+    }
+
+    @PostMapping("save-update/{id}")
+    public String saveBook(@PathVariable Long id, Book book, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "update-book";
+        }
+
+        Book existingBook = bookService.findBookById(id);
+        existingBook.setIsbn(book.getIsbn());
+        existingBook.setName(book.getName());
+        existingBook.setDescription(book.getDescription());
+
+        bookService.updateBook(book);
+        model.addAttribute("books", bookService.findAllBooks());
+        return "redirect:/books";
     }
 }

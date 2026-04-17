@@ -71,7 +71,7 @@ public class Book {
     }
 
     public void removeAuthor(Author author) {
-        this.publishers.remove(author);
+        this.authors.remove(author);
         author.getBooks().remove(this);
     }
 
