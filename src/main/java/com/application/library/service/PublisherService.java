@@ -29,7 +29,7 @@ public class PublisherService {
         publisherRepository.save(publisher);
     }
 
-    public void deletePublisher(Long id) {
+    public void deletePublisherById(Long id) {
         Publisher publisher = findPublisherById(id);
         publisherRepository.delete(publisher);
     }

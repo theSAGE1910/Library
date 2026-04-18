@@ -60,6 +60,7 @@ public class BookController {
     @PostMapping("/save-book")
     public String saveBook(Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("book", book);
             model.addAttribute("categories", categoryService.findAllCategories());
             model.addAttribute("publishers", publisherService.findAllPublishers());
             model.addAttribute("authors", authorService.findAllAuthors());
@@ -80,7 +81,7 @@ public class BookController {
         return "update-book";
     }
 
-    @PostMapping("save-update/{id}")
+    @PostMapping("save-book/{id}")
     public String saveBook(@PathVariable Long id, Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("book", book);
